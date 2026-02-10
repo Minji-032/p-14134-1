@@ -1,7 +1,9 @@
 package com.back.domain.chat.ChatMessage.controller
 
 import com.back.domain.chat.ChatMessage.entity.ChatMessage
+import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.web.bind.annotation.*
+import tools.jackson.databind.util.ClassUtil.defaultValue
 import java.time.LocalDateTime
 
 @RestController
@@ -66,8 +68,14 @@ class ApiV1ChatMessageController {
     )
 
     @GetMapping
-    fun getItems(@PathVariable chatRoomId: Int): List<ChatMessage> =
-        chatMessagesByRoomId.getOrDefault(chatRoomId, emptyList())
+    fun getItems(
+        @PathVariable chatRoomId: Int,
+        @RequestParam(defaultValue = "-1") afterChatMessageId: Int
+    ): List<ChatMessage> =
+        chatMessagesByRoomId
+            .getOrDefault(chatRoomId, emptyList())
+            .filter { it.id > afterChatMessageId }
+            .toList()
 
     data class ChatMessageWriteReqBody(
         val writerName: String,
