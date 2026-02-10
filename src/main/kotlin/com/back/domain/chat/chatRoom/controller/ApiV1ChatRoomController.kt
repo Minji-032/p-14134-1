@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v1/chat/rooms")
 class ApiV1ChatRoomController {
     @GetMapping
-    fun getItems() = "채팅방 목록!"
+    fun getItems() = listOf("room1", "room2", "room3")
 }
