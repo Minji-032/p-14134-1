@@ -1,19 +1,18 @@
 package com.back.domain.chat.ChatMessage.controller
 
 import com.back.domain.chat.ChatMessage.entity.ChatMessage
-import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.web.bind.annotation.*
-import tools.jackson.databind.util.ClassUtil.defaultValue
 import java.time.LocalDateTime
 
 @RestController
 @RequestMapping("/api/v1/chat/rooms/{chatRoomId}/messages")
 @CrossOrigin(origins = ["https://cdpn.io"])
 class ApiV1ChatMessageController {
+    private var lastChatMessageId = 0
     private val chatMessagesByRoomId: MutableMap<Int, MutableList<ChatMessage>> = mutableMapOf(
         1 to mutableListOf(
             ChatMessage(
-                id = 1,
+                id = ++lastChatMessageId,
                 createDate = LocalDateTime.now(),
                 modifyDate = LocalDateTime.now(),
                 chatRoomId = 1,
@@ -21,7 +20,7 @@ class ApiV1ChatMessageController {
                 content = "풋살하실 분 계신가요?"
             ),
             ChatMessage(
-                id = 2,
+                id = ++lastChatMessageId,
                 createDate = LocalDateTime.now(),
                 modifyDate = LocalDateTime.now(),
                 chatRoomId = 1,
@@ -31,7 +30,7 @@ class ApiV1ChatMessageController {
         ),
         2 to mutableListOf(
             ChatMessage(
-                id = 3,
+                id = ++lastChatMessageId,
                 createDate = LocalDateTime.now(),
                 modifyDate = LocalDateTime.now(),
                 chatRoomId = 2,
@@ -39,7 +38,7 @@ class ApiV1ChatMessageController {
                 content = "농구하실 분 계신가요?"
             ),
             ChatMessage(
-                id = 4,
+                id = ++lastChatMessageId,
                 createDate = LocalDateTime.now(),
                 modifyDate = LocalDateTime.now(),
                 chatRoomId = 2,
@@ -49,7 +48,7 @@ class ApiV1ChatMessageController {
         ),
         3 to mutableListOf(
             ChatMessage(
-                id = 5,
+                id = ++lastChatMessageId,
                 createDate = LocalDateTime.now(),
                 modifyDate = LocalDateTime.now(),
                 chatRoomId = 3,
@@ -57,7 +56,7 @@ class ApiV1ChatMessageController {
                 content = "야구하실 분 계신가요?"
             ),
             ChatMessage(
-                id = 6,
+                id = ++lastChatMessageId,
                 createDate = LocalDateTime.now(),
                 modifyDate = LocalDateTime.now(),
                 chatRoomId = 3,
@@ -90,7 +89,7 @@ class ApiV1ChatMessageController {
         val chatMessages = chatMessagesByRoomId.getOrPut(chatRoomId) { mutableListOf() }
 
         val chatMessage = ChatMessage(
-            chatMessages.size + 1,
+            ++lastChatMessageId,
             LocalDateTime.now(),
             LocalDateTime.now(),
             chatRoomId,
